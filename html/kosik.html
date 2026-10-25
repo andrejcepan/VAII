@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Košík | Futbalový e-shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a class="brand" href="index.html"><span class="logo" aria-hidden="true">⚽</span> Futbalový e-shop</a>
+            <div class="header-actions">
+                <button type="button">Prihlásenie / Registrácia</button>
+                <a class="button" href="kosik.html" aria-current="page">Košík (3)</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navigation" aria-label="Hlavná navigácia">
+        <div class="container nav-content">
+            <a href="index.html">Domov</a>
+            <a href="index.html#ponuka">Ponuka produktov</a>
+            <button type="button">Moje objednávky</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-heading">
+            <h1>Košík</h1>
+            <p>2 produkty / 3 kusy</p>
+        </div>
+
+        <div class="cart-layout">
+            <section aria-label="Produkty v košíku">
+                <article class="cart-item">
+                    <div class="product-image" aria-hidden="true">Obrázok</div>
+                    <div class="product-info">
+                        <h2>Kopačky</h2>
+                        <p>Veľkosť: 42 | Cena za kus: 60 €</p>
+                        <button class="remove" type="button" aria-label="Odstrániť kopačky">Odstrániť</button>
+                    </div>
+                    <div class="quantity" role="group" aria-label="Množstvo kopačiek">
+                        <button type="button" aria-label="Znížiť množstvo kopačiek">−</button>
+                        <input type="text" value="1" readonly aria-label="Počet kopačiek">
+                        <button type="button" aria-label="Zvýšiť množstvo kopačiek">+</button>
+                    </div>
+                    <strong class="item-price">60 €</strong>
+                </article>
+
+                <article class="cart-item">
+                    <div class="product-image" aria-hidden="true">Obrázok</div>
+                    <div class="product-info">
+                        <h2>Futbalová lopta</h2>
+                        <p>Veľkosť: 5 | Cena za kus: 25 €</p>
+                        <button class="remove" type="button" aria-label="Odstrániť futbalovú loptu">Odstrániť</button>
+                    </div>
+                    <div class="quantity" role="group" aria-label="Množstvo futbalových lôpt">
+                        <button type="button" aria-label="Znížiť množstvo lôpt">−</button>
+                        <input type="text" value="2" readonly aria-label="Počet lôpt">
+                        <button type="button" aria-label="Zvýšiť množstvo lôpt">+</button>
+                    </div>
+                    <strong class="item-price">50 €</strong>
+                </article>
+                <a class="back-link" href="index.html#ponuka">← Pokračovať v nákupe</a>
+            </section>
+
+            <section class="summary panel" aria-labelledby="summary-title">
+                <h2 id="summary-title">Súhrn košíka</h2>
+                <dl>
+                    <div><dt>Počet kusov</dt><dd>3</dd></div>
+                    <div class="total"><dt>Celková cena</dt><dd>110 €</dd></div>
+                </dl>
+                <button class="primary" type="button">Pokračovať k objednávke</button>
+            </section>
+        </div>
+        <p class="note">Statická ukážka košíka. Zmena množstva, odstránenie produktov a vytvorenie objednávky zatiaľ nie sú funkčné.</p>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <strong>Futbalový e-shop</strong>
+            <span>Základné vybavenie pre futbalistov</span>
+        </div>
+    </footer>
+</body>
+</html>
