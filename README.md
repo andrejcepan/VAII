@@ -1,56 +1,97 @@
 # Futbalový e-shop
 
-Meno a priezvisko študenta: Andrej Čepan
+**Andrej Čepan · 5ZYI34**
 
-Študijná skupina: 5ZYI34
+Jednoduchá semestrálna aplikácia vo frameworku Vaííčko. Aktuálne funguje úvodná stránka,
+košík a navigácia medzi nimi. Obsah je statický; nákupné tlačidlá a prihlásenie zatiaľ nič nespracúvajú.
 
-## Stručný opis projektu
-Semestrálny projekt predstavuje jednoduchý webový e-shop s futbalovým vybavením, ako sú kopačky, lopty, chrániče a ďalšie základné doplnky. Aplikácia je určená rekreačným aj aktívnym futbalistom, ktorí si chcú prezrieť ponuku a objednať potrebné vybavenie na jednom mieste.
+## Spustenie
 
-Hlavným cieľom je umožniť zákazníkovi vybrať produkty, vložiť ich do košíka a vytvoriť objednávku. Správca bude môcť spravovať ponuku a objednávky. V základnej verzii sa nepočíta s online platobnou bránou.
+Vo VS Code otvorte **Terminal → Run Task → Spustiť Futbalový e-shop**.
+Potom v prehliadači otvorte **http://localhost:8000**. Server zastavíte cez **Ctrl+C** v termináli.
+Ak server už beží, stačí otvoriť adresu v prehliadači.
 
-## Role v projekte
-- **Návštevník** – prezerá ponuku a detaily produktov, môže sa zaregistrovať alebo prihlásiť.
-- **Registrovaný zákazník** – nakupuje produkty a prezerá svoje objednávky.
-- **Správca** – spravuje produkty, kategórie a stav objednávok.
+Rovnaké spustenie cez PowerShell v koreňovom priečinku projektu:
 
-## Prípady použitia podľa rolí
-- **Návštevník** si prezrie produkty podľa kategórie, otvorí detail produktu a vytvorí si účet.
-- **Registrovaný zákazník** vloží produkt do košíka, upraví množstvo alebo produkt odstráni, zadá doručovacie údaje a odošle objednávku. Následne si prezrie jej stav a históriu svojich objednávok.
-- **Správca** pridá, upraví alebo vyradí produkt z ponuky, spravuje kategórie a zmení stav objednávky.
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\start.ps1
+```
 
-## Plánované entity
-- **Používateľ** – údaje o zákazníkovi alebo správcovi: meno, e-mail, heslo uložené ako hash a rola. Používateľ môže vytvárať objednávky.
-- **Kategória** – rozdelenie ponuky, napríklad kopačky, lopty a chrániče: názov a opis. Obsahuje produkty.
-- **Produkt** – predávaný tovar: názov, opis, cena, obrázok, dostupné množstvo a prípadná veľkosť. Patrí do kategórie.
-- **Objednávka** – záznam nákupu: zákazník, dátum, stav, celková cena a doručovacie údaje. Obsahuje položky objednávky.
-- **Položka objednávky** – konkrétny produkt v objednávke: produkt, množstvo a jednotková cena v čase nákupu.
+[start.ps1](start.ps1) hľadá PHP najprv v PATH, potom v `%LOCALAPPDATA%\Programs\PHP\8.3`.
+Na tomto počítači je PHP pripravené v druhej uvedenej ceste. Parameter `ExecutionPolicy`
+platí len pre spustený proces a nemení systémové nastavenia.
 
-## Vzťahy medzi entitami
-- **Používateľ – Objednávka (1:N):** jeden zákazník môže mať viac objednávok, každá objednávka patrí jednému zákazníkovi.
-- **Kategória – Produkt (1:N):** kategória obsahuje viac produktov, každý produkt patrí do jednej kategórie.
-- **Objednávka – Položka objednávky (1:N):** objednávka obsahuje jednu alebo viac položiek.
-- **Produkt – Položka objednávky (1:N):** produkt sa môže nachádzať v položkách viacerých objednávok. Vzťah medzi produktmi a objednávkami je teda M:N cez položky objednávky.
+Na inom počítači potrebujete PHP 8.3 alebo novšie. Ak je v PATH, stačí:
 
-## Hlavné stránky aplikácie
-1. **Domovská stránka** – predstavenie e-shopu a prehľad kategórií.
-2. **Ponuka produktov** – zoznam produktov s filtrovaním podľa kategórie.
-3. **Detail produktu** – obrázok, opis, cena, dostupnosť a pridanie do košíka.
-4. **Registrácia a prihlásenie** – vytvorenie účtu a prístup zákazníka alebo správcu.
-5. **Košík** – prehľad vybraných produktov, úprava množstva a celková cena.
-6. **Vytvorenie objednávky** – zadanie doručovacích údajov a potvrdenie nákupu.
-7. **Moje objednávky** – história a detail objednávok prihláseného zákazníka.
-8. **Administrácia** – správa produktov, kategórií a objednávok.
+```sh
+php -S localhost:8000 -t public
+```
 
-## Rozdelenie funkcionality
-### Základné funkcie
-- Registrácia, prihlásenie a rozlíšenie zákazníka a správcu.
-- Prezeranie produktov a filtrovanie podľa kategórie.
-- Košík a vytvorenie objednávky bez online platby.
-- Prehľad vlastných objednávok zákazníka.
-- Správa produktov, kategórií a stavov objednávok.
+Verejný koreň servera je **public**. PHP stránky otvárajte cez server, nie dvojklikom.
+Databázu ani Composer pre túto úlohu netreba.
 
-### Rozširujúce funkcie
-- Vyhľadávanie podľa názvu a filtrovanie podľa ceny či veľkosti.
-- Hodnotenia produktov a zoznam obľúbených produktov.
-- E-mailové potvrdenie objednávky.
+## Ako sa zobrazí stránka
+
+Príklad: `http://localhost:8000/?c=home&a=kosik`
+
+1. Požiadavka príde do [public/index.php](public/index.php), ktorý spustí framework.
+2. Framework prečíta `c=home` (kontrolér) a `a=kosik` (akcia).
+3. V [HomeController.php](App/Controllers/HomeController.php) zavolá metódu `kosik()`.
+4. `return $this->html()` vyberie podľa názvu kontroléra a akcie pohľad [kosik.view.php](App/Views/Home/kosik.view.php).
+5. Obsah pohľadu sa vloží cez `$contentHTML` do [spoločného layoutu](App/Views/Layouts/root.layout.view.php).
+6. Prehliadač dostane hotové HTML a načíta [style.css](public/css/style.css).
+
+Úvodná stránka funguje rovnako s akciou `index`. Bez parametrov sa automaticky použije `home.index`.
+Kontrolér vyberá pohľad, pohľad obsahuje obsah stránky a layout pridáva spoločnú hlavičku, menu a pätičku.
+
+V pohľadoch a layoute sa používajú tri jednoduché pomôcky frameworku:
+
+- `$link->url('home.kosik')` vytvorí odkaz na akciu košíka.
+- `$link->asset('css/style.css')` vytvorí cestu k súboru vo verejnom priečinku.
+- `e(...)` upraví text na bezpečný výpis do HTML, napríklad znak `&` v odkaze.
+
+## Kde čo upraviť
+
+| Čo chcete zmeniť | Súbor |
+| --- | --- |
+| Akcie stránok | [App/Controllers/HomeController.php](App/Controllers/HomeController.php) |
+| Obsah úvodnej stránky | [App/Views/Home/index.view.php](App/Views/Home/index.view.php) |
+| Produkty a súhrn košíka | [App/Views/Home/kosik.view.php](App/Views/Home/kosik.view.php) |
+| Hlavičku, menu alebo pätičku oboch stránok | [App/Views/Layouts/root.layout.view.php](App/Views/Layouts/root.layout.view.php) |
+| Farby, rozostupy a mobilné zobrazenie | [public/css/style.css](public/css/style.css) |
+| Názov aplikácie a nastavenia | [App/Configuration.php](App/Configuration.php) |
+| Spustenie vo VS Code | [.vscode/tasks.json](.vscode/tasks.json) |
+
+[Framework/](Framework/) je pôvodné jadro Vaííčka. Pri úpravách obsahu stránok doň netreba zasahovať.
+[App/Models/](App/Models/) je pripravený pre budúce dátové modely a [App/Views/_Error/](App/Views/_Error/)
+obsahuje chybový pohľad frameworku. Databáza a prihlasovanie sa zatiaľ nepoužívajú.
+
+Pôvodná úloha 4 zostáva v [html/](html/). Opis a plán semestrálky sú v [analýze](analyza/README.md),
+návrh rozloženia vo [wireframe.pdf](analyza/wireframe.pdf).
+
+## Rýchle overenie
+
+1. Otvorte úvodnú stránku a cez menu prejdite do košíka.
+2. Skontrolujte dva produkty, tri kusy a celkovú cenu 110 €.
+3. Skúste odkazy **Domov**, **Ponuka produktov** a **Pokračovať v nákupe**.
+4. Zúžte okno alebo cez F12 a Ctrl+Shift+M nastavte šírku 375 px.
+   Súhrn košíka má byť pod produktmi a stránka sa nemá posúvať vodorovne.
+
+Obrázky produktov sú zástupné plochy, logo je znak lopty. JavaScript ani externé obrázky sa nenačítavajú.
+
+## Voliteľné spustenie cez Docker
+
+Konfigurácia v [docker/](docker/) pochádza z frameworku. Ak používate Docker, na túto úlohu stačí služba `web`:
+
+```sh
+docker compose -f docker/docker-compose.yml up -d web
+```
+
+Otvorte **http://localhost**. Zastavenie: `docker compose -f docker/docker-compose.yml down`.
+Služby `db` a `adminer` sú pripravené pre neskoršiu prácu s databázou.
+
+## Použitý framework
+
+[Vaííčko](https://github.com/thevajko/vaiicko) 3.0.7, commit `1abe6ab1672d062277a6f86953b9f5ef0775e93e`.
+Dokumentácia: [vytvorenie stránky](https://github.com/thevajko/vaiicko/wiki/06-Vytvorenie-vlastnej-str%C3%A1nky)
+a [spoločné rozloženie](https://github.com/thevajko/vaiicko/wiki/12-Rozlo%C5%BEenie-celej-str%C3%A1nky).
